@@ -1,5 +1,37 @@
 import numpy as np
 
+# TODO: Add different constructors to simulate entry https://docs.python.org/3/tutorial/classes.html
+# TODO: Add plots
+
+
+class SimplePerceptron:
+    def __init__(self, X, y, g):
+        self.X = X
+        self.y = y
+        self.g = g
+        self.l, self.p = X.shape
+        self.w = None
+        self.b = None
+
+    def fit(self):
+        self.w, self.b, cc = np.zeros(self.p), 0, 0
+
+        while cc < self.l:
+            for i in range(self.l):
+                if self.y[i] * self.g(np.inner(self.w, self.X[i, :]) + self.b) <= 0:
+                    self.w = self.w + self.y[i] * self.X[i, :]
+                    self.b = self.b + self.y[i]
+                else:
+                    cc = cc + 1
+            if cc < self.l:
+                cc = 0
+
+    def get_model(self):
+        return self.w, self.b
+
+    def evaluate(self, x):
+        return self.g(np.inner(self.w, x)+self.b)
+
 
 def perceptron_vector(X, y, g):
     l, p = X.shape
