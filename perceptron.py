@@ -1,8 +1,24 @@
 import numpy as np
 
 
+def perceptron_vector(X, y, g):
+    l, p = X.shape
+    w, b, cc = np.zeros(p), 0, 0
+
+    while cc < l:
+        for i in range(l):
+            if y[i]*g(np.inner(w, X[i, :])+b) <= 0:
+                w = w + y[i]*X[i, :]
+                b = b + y[i]
+            else:
+                cc = cc + 1
+        if cc < l:
+            cc = 0
+
+    return w, b
+
+
 def perceptron(X, y):
-    print X.shape, y.shape
     l, p = X.shape
 
     # Define matrix of w of shape (l, 1)
