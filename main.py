@@ -1,27 +1,26 @@
 import sys
-from pandas import read_csv
+import numpy as np
 from perceptron import perceptron, perceptron_vector, SimplePerceptron
 from activation import sgn
-
+from data import DataManager
 # TODO: Send X as df[size - 1]
 
 
 def main():
-
     filename = sys.argv[1]
-    df = read_csv(filename)
+    dm = DataManager(filename=filename,
+                     columns=['x1', 'x2'],
+                     target='y')
 
-    a, b = perceptron(X=df[['x1', 'x2']].values,
-                      y=df['y'].values)
+    dm.make_design()
 
-    print("final")
-    print(a, b)
+    model = SimplePerceptron(X=dm.get_matrix(),
+                             y=dm.get_target(),
+                             g=sgn)
+    model.fit()
 
-    p = SimplePerceptron(X=df[['x1', 'x2']].values,
-                         y=df['y'].values,
-                         g=sgn)
-    p.fit()
-    print(p.get_model())
+    print(model.get_model())
+    print(model.evaluate(np.array([0.25, 1.5])))
 
 if __name__ == "__main__":
     main()

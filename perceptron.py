@@ -30,7 +30,7 @@ class SimplePerceptron:
         return self.w, self.b
 
     def evaluate(self, x):
-        return self.g(np.inner(self.w, x)+self.b)
+        return self.g(np.inner(self.w, x) + self.b)
 
 
 def perceptron_vector(X, y, g):
